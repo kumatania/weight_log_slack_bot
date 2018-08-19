@@ -1,0 +1,61 @@
+<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js" %>
+
+<% if @weights.blank? %>
+  <h2>期限切れかも @bukubuku graphで新しいURLもらってね</h2>
+<% else %>
+  <canvas id="myChart" width="1000" height="400"></canvas>
+<% end %>
+
+<script type="text/javascript">
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var x = <%= @x %>
+    var y = <%= @y %>
+    var y_min = <%= @y_min %>
+    var y_max = <%= @y_max %>
+    var myChart = new Chart(ctx, {
+        //グラフのタイプを指定(折れ線グラフ)
+        type: 'line',
+        //描画するグラフのデータを設定
+        data: {
+            //X軸のラベル
+            labels: x,
+            datasets: [
+                {
+                    //凡例
+                    label: "Weight",
+                    //折れ線グラフとX軸の間に色を描画するか否か
+                    fill: false,
+                    //背景色
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    //境界線の色
+                    borderColor: "rgba(75,192,192,1)",
+                    //点の色
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    //点のサイズ
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointRadius: 1,
+                    //点にマウスオーバーした時の設定
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    //グラフの数値
+                    data: y,
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                            min: y_min,
+                            max: y_max
+                        }
+                    }
+                ]
+            }
+        }
+    });
+</script>
